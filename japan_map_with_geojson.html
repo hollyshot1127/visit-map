@@ -276,12 +276,6 @@ function addCity(){
   save();renderTags();updateStats();updatePrefList();refreshMapColors();
   citySel.value='';
   if(navigator.vibrate)navigator.vibrate(10);
-  // 地図タブに切り替えてズーム
-  const f=allFeatures.find(f=>getPref(f)===pref&&getCity(f)===city);
-  if(f){
-    switchTab('map',document.querySelectorAll('.tab')[0]);
-    try{map.fitBounds(L.geoJSON(f).getBounds(),{maxZoom:12,padding:[40,40]});}catch(e){}
-  }
 }
 
 function removeCity(key){
