@@ -205,7 +205,7 @@ function getDisplay(f){const pref=getPref(f),city=getCity(f);return(city&&city!=
 function featureStyle(f){
   const entry=Object.values(visitedMap).find(v=>matchFeature(f,v));
   if(entry)return{color:'#fff',weight:0.8,fillColor:entry.color.hex,fillOpacity:0.75};
-  return{color:'#aaa',weight:0.5,fillColor:'#f0f0f0',fillOpacity:1};
+  return{color:'#ccc',weight:0.3,fillColor:'#f8f8f8',fillOpacity:1};
 }
 
 function matchFeature(f,v){
@@ -258,7 +258,7 @@ async function loadGeoJSON(){
         if(prefRes.ok){
           const prefData=await prefRes.json();
           L.geoJSON(prefData,{
-            style:()=>({color:'#333',weight:2.5,fillColor:'transparent',fillOpacity:0}),
+            style:()=>({color:'#222',weight:3,fillColor:'transparent',fillOpacity:0}),
             interactive:false
           }).addTo(map);
         }
