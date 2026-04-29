@@ -252,25 +252,17 @@ async function loadGeoJSON(){
       allFeatures=data.features;
       geojsonLayer=L.geoJSON(data,{style:featureStyle,onEachFeature:onEach}).addTo(map);
 
-      // 都道府県境界線を上に重ねて描画
-      const prefGroups={};
-      data.features.forEach(f=>{
-        const pref=getPref(f);
-        if(!pref)return;
-        if(!prefGroups[pref])prefGroups[pref]=[];
-        const g=f.geometry;
-        if(g.type==='MultiPolygon')g.coordinates.forEach(c=>prefGroups[pref].push(c));
-        else if(g.type==='Polygon')prefGroups[pref].push(g.coordinates);
-      });
-      const prefFeatures=Object.entries(prefGroups).map(([pref,coords])=>({
-        type:'Feature',
-        properties:{pref},
-        geometry:{type:'MultiPolygon',coordinates:coords}
-      }));
-      L.geoJSON({type:'FeatureCollection',features:prefFeatures},{
-        style:()=>({color:'#555',weight:2,fillColor:'transparent',fillOpacity:0}),
-        interactive:false
-      }).addTo(map);
+      // 都道府県境界線をpref.geojsonから読み込んで重ねて描画
+      try{
+        const prefRes=await fetch('pref.geojson');
+        if(prefRes.ok){
+          const prefData=await prefRes.json();
+          L.geoJSON(prefData,{
+            style:()=>({color:'#333',weight:2.5,fillColor:'transparent',fillOpacity:0}),
+            interactive:false
+          }).addTo(map);
+        }
+      }catch(e){}
 
       document.getElementById('map-loading').style.display='none';
       return;
