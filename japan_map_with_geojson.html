@@ -237,6 +237,10 @@ function onEach(f,layer){
   });
 }
 
+function prefStyle(){
+  return{color:'#666',weight:2.5,fillColor:'transparent',fillOpacity:0,interactive:false};
+}
+
 async function loadGeoJSON(){
   const sources=['japan.geojson','../japan.geojson','./japan.geojson'];
   for(const src of sources){
